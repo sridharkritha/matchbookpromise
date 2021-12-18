@@ -28,7 +28,9 @@
 											});
 
 				console.log(body); // msg from Server
-				g_sessionToken = body.session-token;
+				g_sessionToken = body['session-token'];
+				g_lastLoginTime = body['last-login'];
+				storeCookie(g_sessionToken, g_lastLoginTime);
 		}
 		catch(e) {
 			console.log(e);
@@ -36,6 +38,28 @@
 	}
 
 	loginAndGetSessionToken(myLoginDetails);
+
+
+	function storeCookie(sessionToken, lastLoginTIme)
+	{
+		(async () => { 
+			let obj = {};
+			obj["login" + '.sessionToken']  = sessionToken;
+			obj["login" + '.lastLoginTIme'] = lastLoginTIme;
+			await fs.writeFile('../../GitHubOutside/myLoginDetails/mySessionToken.json', JSON.stringify(obj, null, 4), 'utf8');
+		})();
+
+
+		// const cookData = localStorage.getItem('cookData'); // get it from cookie
+		// if(cookData) 
+		// 	storageObj = JSON.parse(cookData);
+		
+		// if(!cookData) {
+		// 	let obj = {};
+		// 	obj["login" + '.sessionToken']    = sessionToken;
+		// 	localStorage.setItem('cookData', JSON.stringify(obj)); // store in cookie
+		// }
+	}
 
 
 

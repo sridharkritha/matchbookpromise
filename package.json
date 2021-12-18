@@ -2,11 +2,12 @@
   "name": "mongdbplayground",
   "version": "1.0.0",
   "description": "This repository contains a fully functional private chat application using MongoDB, Socket.io and Express that supports real-time chatting and also allows to retrieve chat when logged in later.",
-
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "debug": "nodemon --inspect-brk server.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +16,8 @@
     "got": "^11.8.2",
     "mongodb": "^4.2.1",
     "socket.io": "^4.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
