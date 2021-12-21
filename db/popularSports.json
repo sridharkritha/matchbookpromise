@@ -1,0 +1,55 @@
+{
+    "sports": [
+        {
+            "id": 24735152712200,
+            "name": "Horse Racing",
+            "slug": "horse-racing",
+            "type": "SPORT"
+        },
+        {
+            "id": 15,
+            "name": "Soccer",
+            "slug": "soccer",
+            "type": "SPORT"
+        },
+        {
+            "id": 1532612887820003,
+            "name": "Enhanced Specials",
+            "slug": "enhanced-specials",
+            "type": "SPORT"
+        },
+        {
+            "id": 1,
+            "name": "American Football",
+            "slug": "american-football",
+            "type": "SPORT"
+        },
+        {
+            "id": 241798357140019,
+            "name": "Greyhound Racing",
+            "slug": "greyhound-racing",
+            "type": "SPORT"
+        },
+        {
+            "id": 4,
+            "name": "Basketball",
+            "slug": "basketball",
+            "type": "SPORT"
+        },
+        {
+            "id": 110,
+            "name": "Cricket",
+            "slug": "cricket",
+            "type": "SPORT"
+        },
+        {
+            "id": 116,
+            "name": "Darts",
+            "slug": "darts",
+            "type": "SPORT"
+        }
+    ],
+    "country_id": "GB",
+    "last-updated": "2021-12-21T04:31:09.642Z",
+    "meta-tags": []
+}
