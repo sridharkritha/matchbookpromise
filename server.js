@@ -12,8 +12,6 @@
 	app.use(express.json());               // for body parsing
 	app.use(express.static('clientSide')); // path to public folder
 
-	const { MongoClient } = require('mongodb');
-
 	const PORT = process.env.PORT || 3456; // 3000;
 
 	/////////////////////////////////// GOT HTTP request module ////////////////////////////////////////////////////////
@@ -266,61 +264,25 @@
 
 	//////////////////////////////////////// FILE API SETUP ////////////////////////////////////////////////////////////
 	// Read json file by 'fs' module(WITH promise)
-	async function readLocalFile() {
-		try{
-			const data = await fs.readFile('db/sportsDB.json', 'utf8');
-			console.log("Read the local json successfully");
-			const jsonObject = JSON.parse(data);
-			console.log(jsonObject);
-		}
-		catch(e) {
-			console.error("ERROR: Unable to read the json file");
-			console.log(e);
-		}
+	// async function readLocalFile() {
+	// 	try{
+	// 		const data = await fs.readFile('db/sportsDB.json', 'utf8');
+	// 		console.log("Read the local json successfully");
+	// 		const jsonObject = JSON.parse(data);
+	// 		console.log(jsonObject);
+	// 	}
+	// 	catch(e) {
+	// 		console.error("ERROR: Unable to read the json file");
+	// 		console.log(e);
+	// 	}
 		
-	}
-	readLocalFile();
-	//////////////////////////////////////// MONGODB CONNECTION SETUP //////////////////////////////////////////////////
-	// 1. Mongo: Local database
-	// const database = 'mongodb://localhost:27017/';
-	// 2. Mongo: Atlas database
-	// Connection URI <username>, <password>, and <your-cluster-url>.
-	const databaseURI = 'mongodb+srv://sridharkritha:2244@cluster0.02kdt.mongodb.net/';
-	const MONGO_DATABASE_NAME = 'mongodbplayground';
-	const MONGO_COLLECTION_NAME = 'mycollection';       // collection to store all chats
-	let g_collection = null;
-	let g_mongoClient = null;
+	// }
+	// readLocalFile();
+
 	//////////////////////////// SERVER IS LISTENING ////////////////////////////////////////////////////////////
 	// Server listen at the given port number
 	httpServer.listen(PORT, async () => {
 		console.log("Server is running on the port : " + httpServer.address().port);
-
-		// The Mongo Client you will use to interact with your database
-		g_mongoClient = new MongoClient(databaseURI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-		try {
-				await g_mongoClient.connect();
-				console.log("Cluster connection                                      : Success");
-
-				const DB = g_mongoClient.db(MONGO_DATABASE_NAME);
-				if(!DB) {
-					console.log(`Database - ${MONGO_DATABASE_NAME} - connection error`);
-					return console.error(DB);
-				}
-				console.log(`Database(${MONGO_DATABASE_NAME}) connection        : Success`);
-
-				g_collection = DB.collection(MONGO_COLLECTION_NAME);
-				if(!g_collection) {
-					console.log(`Collection - ${MONGO_COLLECTION_NAME} - connection error`);
-					return console.error(g_collection);
-				}
-				console.log(`Collection(${MONGO_COLLECTION_NAME}) connection          : Success`);
-
-				// Drop/Delete all the documents inside the collection and upload data from the json	
-				// let result = await client.db(dataBaseName).collection(collectionName).drop();
-		} catch(e) {
-			console.error(e);
-		}
 	});
 
 }()); // namespace
