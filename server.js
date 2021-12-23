@@ -14,6 +14,47 @@
 
 	const PORT = process.env.PORT || 3456; // 3000;
 
+
+	//////////////////////////////////////// FILE API SETUP ////////////////////////////////////////////////////////////
+	// Read json file by 'fs' module(WITH promise)
+	async function readLocalFile(fileFullPath) {
+		try{
+			const isFileExist = await fs.stat(fileFullPath).then(() => true).catch(() => false);
+
+			if(isFileExist) {
+				const data = await fs.readFile(fileFullPath, 'utf8');
+				console.log("Read the local json successfully");
+				const jsonObject = JSON.parse(data);
+				console.log(jsonObject);
+
+				// "login.lastLoginTIme": "2021-12-22T06:55:09.000Z"
+				const elapsedTime = new Date() - new Date(jsonObject["login.lastLoginTIme"]); // milli seconds
+
+				// Check is less than 6 hrs
+				if(6*60*60 > elapsedTime / 1000)
+				{
+					console.log("Last Session is still valid because elapsed time is less than 6 hours");
+					g_sessionToken = jsonObject["login.sessionToken"];
+					g_lastLoginTime = jsonObject["login.lastLoginTIme"];
+				}
+				else {
+					console.log("Last Session is NOT valid because elapsed time is greater than 6 hours");
+					loginAndGetSessionToken(myLoginDetails);
+				}
+			}
+			else {
+				loginAndGetSessionToken(myLoginDetails);
+			}
+		}
+		catch(e) {
+			console.error("ERROR: Unable to read the json file");
+			console.log(e);
+			loginAndGetSessionToken(myLoginDetails);
+		}
+	}
+
+	readLocalFile("../../GitHubOutside/myLoginDetails/mySessionToken.json");
+
 	/////////////////////////////////// GOT HTTP request module ////////////////////////////////////////////////////////
 	// npm i got@11.8.2  
 	const got = require('got'); // like Fetch api but it is for server side to give the HTTP request to another server
@@ -39,13 +80,18 @@
 				g_lastLoginTime = body['last-login'];
 				UTILS.storeCookie(g_sessionToken, g_lastLoginTime);
 
-				// MAIN FUNCTION STARTS HERE !!!
+
+//////////////////////////////////// MAIN FUNCTION STARTS HERE !!! /////////////////////////////////////////////////////
 				main(); // After Login Flow;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 		}
 		catch(e) {
 			console.log(e);
 		}
-	}(myLoginDetails); // self executing - startup function
+	// }(myLoginDetails); // self executing - startup function
+	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Get Events: Get a list of events available on Matchbook ordered by start time.
@@ -262,22 +308,7 @@
 	});
 
 
-	//////////////////////////////////////// FILE API SETUP ////////////////////////////////////////////////////////////
-	// Read json file by 'fs' module(WITH promise)
-	// async function readLocalFile() {
-	// 	try{
-	// 		const data = await fs.readFile('db/sportsDB.json', 'utf8');
-	// 		console.log("Read the local json successfully");
-	// 		const jsonObject = JSON.parse(data);
-	// 		console.log(jsonObject);
-	// 	}
-	// 	catch(e) {
-	// 		console.error("ERROR: Unable to read the json file");
-	// 		console.log(e);
-	// 	}
-		
-	// }
-	// readLocalFile();
+
 
 	//////////////////////////// SERVER IS LISTENING ////////////////////////////////////////////////////////////
 	// Server listen at the given port number
