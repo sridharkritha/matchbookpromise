@@ -36,6 +36,10 @@
 					console.log("Last Session is still valid because elapsed time is less than 6 hours");
 					g_sessionToken = jsonObject["login.sessionToken"];
 					g_lastLoginTime = jsonObject["login.lastLoginTIme"];
+
+					//////////////////////////////////// MAIN FUNCTION STARTS HERE !!! /////////////////////////////////////////////////////
+					main(); // After Login Flow;
+					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				}
 				else {
 					console.log("Last Session is NOT valid because elapsed time is greater than 6 hours");
@@ -168,7 +172,42 @@
 		}
 	}
 
-	// getEventById('24735152712200');
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Get Markets
+	// GET: https://api.matchbook.com/edge/rest/events/{event_id}/markets
+
+	// GET(REST API) request
+	async function getMarketsById(event_id) {
+		try {
+
+
+			const queryObject = {
+				'offset': '0',
+				'per-page': '20',
+				'states': 'open%2Csuspended',
+				'exchange-type': 'back-lay',
+				'odds-type': 'DECIMAL',
+				'include-prices': 'false',
+				'price-depth': '3',
+				'price-mode': 'expanded',
+				'exclude-mirrored-prices': 'false',
+				'event_id': event_id
+				// ,'User-Agent': 'api-doc-test-client'
+			};
+
+			const { body } = await got(`https://api.matchbook.com/edge/rest/events/${event_id}/markets` + '?'+ UTILS.objectToUrlQueryString(queryObject));
+
+			console.log(body); // msg from Server
+
+			await fs.writeFile('db/eventHorseRacing.json', JSON.stringify(JSON.parse(body), null, 4), 'utf8');
+		}
+		catch(e) {
+			console.log(e);
+		}
+	}
+
+	// getMarketsById('24735152712200');
+
 
 
 
@@ -176,9 +215,11 @@
 	// main function - After Login Flow;
 	function main()
 	{
-		getEvents();
+		// getEvents();
 		// getPopularSports(8);
 		// getEventById('24735152712200'); // 24735152712200
+
+		getMarketsById('24735152712200');
 	}
 
 

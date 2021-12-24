@@ -19,15 +19,21 @@
             "type": "SPORT"
         },
         {
+            "id": 241798357140019,
+            "name": "Greyhound Racing",
+            "slug": "greyhound-racing",
+            "type": "SPORT"
+        },
+        {
             "id": 1,
             "name": "American Football",
             "slug": "american-football",
             "type": "SPORT"
         },
         {
-            "id": 241798357140019,
-            "name": "Greyhound Racing",
-            "slug": "greyhound-racing",
+            "id": 116,
+            "name": "Darts",
+            "slug": "darts",
             "type": "SPORT"
         },
         {
@@ -41,15 +47,9 @@
             "name": "Cricket",
             "slug": "cricket",
             "type": "SPORT"
-        },
-        {
-            "id": 116,
-            "name": "Darts",
-            "slug": "darts",
-            "type": "SPORT"
         }
     ],
     "country_id": "GB",
-    "last-updated": "2021-12-21T04:31:09.642Z",
+    "last-updated": "2021-12-23T09:32:06.351Z",
     "meta-tags": []
 }
