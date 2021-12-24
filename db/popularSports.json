@@ -25,15 +25,15 @@
             "type": "SPORT"
         },
         {
-            "id": 1,
-            "name": "American Football",
-            "slug": "american-football",
-            "type": "SPORT"
-        },
-        {
             "id": 116,
             "name": "Darts",
             "slug": "darts",
+            "type": "SPORT"
+        },
+        {
+            "id": 1,
+            "name": "American Football",
+            "slug": "american-football",
             "type": "SPORT"
         },
         {
@@ -50,6 +50,6 @@
         }
     ],
     "country_id": "GB",
-    "last-updated": "2021-12-23T09:32:06.351Z",
+    "last-updated": "2021-12-24T07:31:36.525Z",
     "meta-tags": []
 }

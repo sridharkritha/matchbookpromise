@@ -171,6 +171,24 @@
 			console.log(e);
 		}
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Get Get Sport data by id
+	// GET: https://api.matchbook.com/edge/rest/events?sport-ids=${sport_id}
+
+	// GET(REST API) request
+	async function getSportById(sport_id, fileName) {
+		try {
+				// https://api.matchbook.com/edge/rest/events?sport-ids=24735152712200
+				const { body } = await got(`https://api.matchbook.com/edge/rest/events?sport-ids=${sport_id}`);
+
+				console.log(body); // msg from Server
+
+				await fs.writeFile(fileName, JSON.stringify(JSON.parse(body), null, 4), 'utf8');
+		}
+		catch(e) {
+			console.log(e);
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Get Markets
@@ -179,8 +197,6 @@
 	// GET(REST API) request
 	async function getMarketsById(event_id) {
 		try {
-
-
 			const queryObject = {
 				'offset': '0',
 				'per-page': '20',
@@ -191,11 +207,19 @@
 				'price-depth': '3',
 				'price-mode': 'expanded',
 				'exclude-mirrored-prices': 'false',
-				'event_id': event_id
+				'event_id': event_id,
+				
 				// ,'User-Agent': 'api-doc-test-client'
 			};
 
-			const { body } = await got(`https://api.matchbook.com/edge/rest/events/${event_id}/markets` + '?'+ UTILS.objectToUrlQueryString(queryObject));
+			queryObject.headers = {};
+			queryObject.headers['session-token'] =  g_sessionToken;
+
+			console.log("@@@@@@@@" + g_sessionToken);
+
+
+			// const { body } = await got(`https://api.matchbook.com/edge/rest/events/${event_id}/markets` + '?'+ UTILS.objectToUrlQueryString(queryObject), { headers: { 'session-token': g_sessionToken } });
+
 
 			console.log(body); // msg from Server
 
@@ -212,14 +236,18 @@
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// Note: Sport id is NOT EQUAL to Event id
+	// Sport id is constant(HorseRace = 24735152712200) but Event id changes every day(24thDec Kempton HorseRace = 1942888205470016)
 	// main function - After Login Flow;
 	function main()
 	{
-		// getEvents();
-		// getPopularSports(8);
-		// getEventById('24735152712200'); // 24735152712200
+		getPopularSports(8);         // return sport_id
+		getSportById('24735152712200', 'db/myHorseRacingData.json'); // sport_id (NOT event_id)
 
-		getMarketsById('24735152712200');
+		getEvents();
+		getEventById('1943000032500016'); // 1943000032500016 <= event_id (NOT sport_id)
+		// getMarketsById('24735152712200');
 	}
 
 
